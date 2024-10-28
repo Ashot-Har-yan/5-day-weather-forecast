@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams,Link } from 'react-router-dom';
-import { ROUTES } from '../../util/constant';
+import { Button } from 'antd';
+import './index.css'
 
 const HourlyForecast = () => {
     const { day } = useParams();
@@ -34,20 +35,23 @@ const HourlyForecast = () => {
 
     return (
         <div className='hourly_container'> 
-            <h2 style={{justifySelf:'center'}}>Hourly Forecast for {city} </h2>
+        <h2 style={{justifySelf:'center'}}>Hourly Forecast for {city} </h2>
             {hourlyData.length > 0 ? (
                 hourlyData.map((hour, index) => (
-                    <div key={index} style={{display:'flex', gap:'10px',marginTop:'30px'}}>
+                    <div key={index} className='daily_container'>
                         <p>{hour.dt_txt}: {hour.main.temp} °C</p>
                         <img src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`} alt="Weather icon" />
                     </div>
                 ))
             ) : (
                 <p>No hourly data available</p>
-            )};
-                <Link to = {ROUTES.DAY}>
+            )}
+            <Button type='primary' htmlType='submit'>
+            <Link to = '/'>
                     Go to see daily weather
                 </Link>
+            </Button>
+                
         </div>
     );
 };
