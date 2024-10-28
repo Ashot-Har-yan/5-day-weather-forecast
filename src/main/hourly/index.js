@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams,Link } from 'react-router-dom';
-import { Button } from 'antd';
 import './index.css'
 
 const HourlyForecast = () => {
@@ -46,11 +45,13 @@ const HourlyForecast = () => {
             ) : (
                 <p>No hourly data available</p>
             )}
-            <Button type='primary' htmlType='submit'>
-            <Link to = '/'>
+          <button>
+          <Link to = '/'>
                     Go to see daily weather
                 </Link>
-            </Button>
+          </button>
+            
+           
                 
         </div>
     );
