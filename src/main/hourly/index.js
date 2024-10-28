@@ -1,6 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
+import { ROUTES } from '../../util/constant';
 
 const HourlyForecast = () => {
     const { day } = useParams();
@@ -14,9 +14,16 @@ const HourlyForecast = () => {
                 const response = await fetch(
                     `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`
                 );
-                const data = await response.json()
-                const filteredData = data.list.filter(item => item.dt_txt.startsWith(day));
-                setHourlyData(filteredData);
+                
+                const data = await response.json();
+             console.log(data)
+
+                if (response.ok) {
+                    const filteredData = data.list.filter(item => item.dt_txt);
+                    setHourlyData(filteredData);
+                } else {
+                    console.error("API Error:", data.message); 
+                }
             } catch (error) {
                 console.error("Error fetching:", error);
             }
@@ -26,18 +33,21 @@ const HourlyForecast = () => {
     }, [apiKey, city, day]);
 
     return (
-        <div>
-            <h2>Hourly Forecast for {day}</h2>
+        <div className='hourly_container'> 
+            <h2 style={{justifySelf:'center'}}>Hourly Forecast for {city} </h2>
             {hourlyData.length > 0 ? (
                 hourlyData.map((hour, index) => (
-                    <div key={index}>
+                    <div key={index} style={{display:'flex', gap:'10px',marginTop:'30px'}}>
                         <p>{hour.dt_txt}: {hour.main.temp} °C</p>
                         <img src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`} alt="Weather icon" />
                     </div>
                 ))
             ) : (
-                <p>Hourly data don't available</p>
-            )}
+                <p>No hourly data available</p>
+            )};
+                <Link to = {ROUTES.DAY}>
+                    Go to see daily weather
+                </Link>
         </div>
     );
 };

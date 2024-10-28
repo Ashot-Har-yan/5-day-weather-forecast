@@ -1,22 +1,23 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements,Route} from "react-router-dom"; 
-import WeatherForecast from './wether';
-import HourlyForecast from './hourly/HourlyForecast';
+import WeatherForecast from './main/daily';
+import HourlyForecast from './main/hourly';
+import { ROUTES } from './util/constant';
+
+
+
 
 const App = () => {
-    return (
-        <RouterProvider
-        router={
-          createBrowserRouter(
-            createRoutesFromElements(
-                <Route path="/" element={<WeatherForecast />} >
-                <Route path="/hourly/:day" element =  {<HourlyForecast />}></Route>
-         </Route>
-            )
-          )
-            }
-        />
-    );
+  const router = createBrowserRouter(
+      createRoutesFromElements(
+          <>
+              <Route path='/' element={<WeatherForecast />} />
+              <Route path={ROUTES.HOUR} element={<HourlyForecast />} />
+          </>
+      )
+  );
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;
